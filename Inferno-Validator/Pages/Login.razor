@@ -1,0 +1,39 @@
+@page "/Login"
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+@inject PasswordManager PasswordManager
+
+<input @bind="_password" type="password" />
+<button @onclick="SignIn">Sign in</button>
+@if (_invalidPassword)
+{
+    <p>Invalid password, try again.</p>
+}
+
+@code {
+    private bool _invalidPassword;
+    private string _password = string.Empty;
+
+    private void SignIn()
+    {
+        var user = new User
+        {
+            UserName = "User",
+            Password = _password
+        };
+
+        if (PasswordManager.CheckPassword(user))
+        {
+            ((CustomAuthenticationStateProvider)AuthenticationStateProvider)
+                .AuthenticateUser(user);
+
+            NavigationManager.NavigateTo("/search");
+        }
+        else
+        {
+            _invalidPassword = true;
+            _password = string.Empty;
+        }
+
+    }
+}

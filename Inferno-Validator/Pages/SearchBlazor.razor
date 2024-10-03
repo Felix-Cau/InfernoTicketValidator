@@ -1,0 +1,60 @@
+﻿@page "/search"
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+<PageTitle>Search</PageTitle>
+
+<h1>Search</h1>
+
+<p>Search for a ticket to validate the player.<br />Don't forget to check the player's ID card to see if it matches the name on the ticket.<br />
+    You can search on the following data. First name, last name, date of birth and ticket number.<br /><br />Only tickets marked as "Paid" or "Guest" are valid.</p>
+
+    @* Choose a game to search tickets for. *@
+<h3>Select the game to search in:</h3>
+<select @bind="SelectedGame" class="form-control" placeholder="Select Game" style="width: 200px;">
+    <option value="">Select game</option>
+    @foreach (var game in Games)
+    {
+        <option value="@game.Id">@game.Name @game.Year</option>
+    }
+</select>
+
+@* Search for a ticket. *@
+<div class="text-left">
+    <input class="text" @bind-value="searchText" @bind-value:event="oninput" placeholder="Search" @onkeyup="Search" />
+    <button class="btn btn-primary" @onclick="Search">Search</button>
+</div>
+
+@if (!FilteredTickets.Any())
+{
+    <p>No ticket found.</p>
+    @if (searchText.Length < 3)
+    {
+        <p>Search term must be at least 3 characters long.</p>
+    }
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Ticket number</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Date of birth (YYYY/MM/DD)</th>
+                <th>Payment status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ticket in FilteredTickets)
+            {
+                <tr>
+                    <td>@ticket.Id</td>
+                    <td>@ticket.FirstName</td>
+                    <td>@ticket.LastName</td>
+                    <td>@ticket.DateOfBirth</td>
+                    <td>@ticket.PaymentStatus</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
