@@ -4,7 +4,7 @@ This repository contains my first Blazor web application, developed as a learnin
 
 ## Project Overview
 
-This project leverages ASP.NET Core to build a robust and scalable backend for the application.
+This project leverages **ASP.NET Core** to build a robust and scalable backend for the application.
 
 This application was built to serve as a booking system for my company. During development, I explored several new concepts and technologies, including:
 
